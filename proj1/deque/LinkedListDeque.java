@@ -17,7 +17,7 @@ public class LinkedListDeque<T> implements Deque<T> {
     }
 
     private int size;
-    ListNode<T> sentinel;
+    private ListNode<T> sentinel;
 
     /**
      * Creates an empty linked list deque (no arguments).
@@ -31,7 +31,18 @@ public class LinkedListDeque<T> implements Deque<T> {
      * Same as get, but uses recursion.
      */
     public T getRecursive(int index) {
-        return null;
+        if (isEmpty() || index >= size()) {
+            return null;
+        }
+
+        return getRecursiveHelper(index, sentinel.next);
+    }
+
+    private T getRecursiveHelper(int index, ListNode<T> ptr) {
+        if (index == 0) {
+            return ptr.item;
+        }
+        return getRecursiveHelper(index - 1, ptr.next);
     }
 
     @Override
@@ -50,7 +61,6 @@ public class LinkedListDeque<T> implements Deque<T> {
 
         newNode.prev = sentinel;
         sentinel.next = newNode;
-
         size++;
     }
 
@@ -70,7 +80,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         }
 
         sentinel.prev = newNode;
-
         size++;
     }
 
@@ -86,12 +95,22 @@ public class LinkedListDeque<T> implements Deque<T> {
 
     @Override
     public void printDeque() {
-
+        ListNode<T> ptr = sentinel.next;
+        while (ptr != sentinel) {
+            if (ptr.next != sentinel) {
+                System.out.print(ptr.item + " -> ");
+            } else {
+                System.out.println(ptr.item);
+            }
+            ptr = ptr.next;
+        }
     }
 
     @Override
     public T removeFirst() {
-        // throw error if 0 items
+        if (isEmpty()) {
+            return null;
+        }
 
         T value = sentinel.next.item;
 
@@ -109,12 +128,29 @@ public class LinkedListDeque<T> implements Deque<T> {
 
     @Override
     public T removeLast() {
-        return null;
+        if (size <= 1) {
+            return removeFirst();
+        }
+
+        T value = sentinel.prev.item;
+        sentinel.prev.prev.next = sentinel;
+        sentinel.prev = sentinel.prev.prev;
+        size--;
+        return value;
     }
 
     @Override
     public T get(int index) {
-        return null;
+        if (isEmpty() || index >= size()) {
+            return null;
+        }
+
+        ListNode<T> ptr = sentinel.next;
+        while (index != 0) {
+            ptr = ptr.next;
+            index--;
+        }
+        return ptr.item;
     }
 
     @Override
