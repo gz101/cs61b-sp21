@@ -8,31 +8,6 @@ import static org.junit.Assert.*;
 
 public class MaxArrayDequeTest {
 
-    public static class StringComparator implements Comparator<String> {
-        public int compare(String a, String b) {
-            return a.compareTo(b);
-        }
-    }
-
-    public static class IntegerComparator implements Comparator<Integer> {
-        public int compare(Integer a, Integer b) {
-            return a.compareTo(b);
-        }
-    }
-
-    public static class ReverseStringComparator implements Comparator<String> {
-        public int compare(String a, String b) {
-            return -a.compareTo(b);
-        }
-    }
-
-    public static class ReverseIntegerComparator implements Comparator<Integer> {
-        public int compare(Integer a, Integer b) {
-            return -a.compareTo(b);
-        }
-    }
-
-
     @Test
     public void testMaxWithIntegerComparator() {
         MaxArrayDeque<Integer> deque = new MaxArrayDeque<>(new IntegerComparator());
@@ -139,13 +114,37 @@ public class MaxArrayDequeTest {
         deque3.addLast(2);
         deque3.addLast(1);
 
-        assertTrue(deque1.equals(deque2));
-        assertFalse(deque1.equals(deque3));
+        assertEquals(deque1, deque2);
+        assertNotEquals(deque1, deque3);
+    }
+
+    public static class StringComparator implements Comparator<String> {
+        public int compare(String a, String b) {
+            return a.compareTo(b);
+        }
+    }
+
+    public static class IntegerComparator implements Comparator<Integer> {
+        public int compare(Integer a, Integer b) {
+            return a.compareTo(b);
+        }
+    }
+
+    public static class ReverseStringComparator implements Comparator<String> {
+        public int compare(String a, String b) {
+            return -a.compareTo(b);
+        }
+    }
+
+    public static class ReverseIntegerComparator implements Comparator<Integer> {
+        public int compare(Integer a, Integer b) {
+            return -a.compareTo(b);
+        }
     }
 
     private static class Person {
-        private String name;
-        private int age;
+        private final String name;
+        private final int age;
 
         public Person(String name, int age) {
             this.name = name;
