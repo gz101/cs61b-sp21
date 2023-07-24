@@ -4,27 +4,36 @@ import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Deque<T> {
 
-    private class ListNode<T> {
-        ListNode<T> prev;
-        T item;
-        ListNode<T> next;
-
-        public ListNode(T value) {
-            prev = this;
-            next = this;
-            item = value;
-        }
-    }
-
     private int size;
-    private ListNode<T> sentinel;
-
+    private final ListNode<T> sentinel;
     /**
      * Creates an empty linked list deque (no arguments).
      */
     public LinkedListDeque() {
         size = 0;
         sentinel = new ListNode<>(null);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof LinkedListDeque olld) {
+            if (olld.size() != this.size()) {
+                return false;
+            }
+
+            Iterator<T> it1 = this.iterator();
+            Iterator<T> it2 = olld.iterator();
+            while (it1.hasNext() && it2.hasNext()) {
+                if (!it1.next().equals(it2.next())) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // not an instance of LinkedListDeque
+        return false;
     }
 
     /**
@@ -81,11 +90,6 @@ public class LinkedListDeque<T> implements Deque<T> {
 
         sentinel.prev = newNode;
         size++;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     @Override
@@ -155,6 +159,36 @@ public class LinkedListDeque<T> implements Deque<T> {
 
     @Override
     public Iterator iterator() {
-        return null;
+        return new LinkedListDequeIterator();
+    }
+
+    private class ListNode<T> {
+        ListNode<T> prev;
+        T item;
+        ListNode<T> next;
+
+        public ListNode(T value) {
+            prev = this;
+            next = this;
+            item = value;
+        }
+    }
+
+    private class LinkedListDequeIterator implements Iterator<T> {
+        private ListNode<T> pos;
+
+        public LinkedListDequeIterator() {
+            pos = sentinel.next;
+        }
+
+        public boolean hasNext() {
+            return pos != sentinel;
+        }
+
+        public T next() {
+            T item = pos.item;
+            pos = pos.next;
+            return item;
+        }
     }
 }

@@ -1,11 +1,15 @@
 package deque;
 
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
+
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 
-/** Performs some basic array tests. */
+/**
+ * Performs some basic array tests.
+ */
 public class ArrayDequeTest {
 
     @Test
@@ -76,8 +80,8 @@ public class ArrayDequeTest {
     /* Check if you can create ArrayDeques with different parameterized types*/
     public void multipleParamTest() {
 
-        ArrayDeque<String>  ad1 = new ArrayDeque<>();
-        ArrayDeque<Double>  ad2 = new ArrayDeque<>();
+        ArrayDeque<String> ad1 = new ArrayDeque<>();
+        ArrayDeque<Double> ad2 = new ArrayDeque<>();
         ArrayDeque<Boolean> ad3 = new ArrayDeque<>();
 
         ad1.addFirst("string");
@@ -97,29 +101,8 @@ public class ArrayDequeTest {
 
         boolean passed1 = false;
         boolean passed2 = false;
-        assertEquals("Should return null when removeFirst is called on an empty Deque,", null, ad1.removeFirst());
-        assertEquals("Should return null when removeLast is called on an empty Deque,", null, ad1.removeLast());
-    }
-
-    @Test
-    public void resizeArrayDequeTest() {
-
-        ArrayDeque<String> ad1 = new ArrayDeque<>();
-
-        ad1.addLast("a");
-        ad1.addLast("b");
-        ad1.addFirst("c");
-        ad1.addLast("d");
-        ad1.addLast("e");
-        ad1.addFirst("f");
-        ad1.addLast("g");
-        ad1.addLast("h");
-
-        ad1.printDeque();
-
-        ad1.addLast("Z");
-
-        ad1.printDeque();
+        assertNull("Should return null when removeFirst is called on an empty Deque,", ad1.removeFirst());
+        assertNull("Should return null when removeLast is called on an empty Deque,", ad1.removeLast());
     }
 
     @Test
@@ -161,5 +144,132 @@ public class ArrayDequeTest {
         assertEquals("Expected to be 1", 1, (int) ad2.get(1));
         assertEquals("Expected to be 2", 2, (int) ad2.get(2));
         assertEquals("Expected to be 3", 3, (int) ad2.get(3));
+    }
+
+    @Test
+    public void testAddFirstAndRemoveFirst() {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+
+        deque.addFirst(1);
+        deque.addFirst(2);
+        deque.addFirst(3);
+
+        assertEquals(3, (int) deque.removeFirst());
+        assertEquals(2, (int) deque.removeFirst());
+        assertEquals(1, (int) deque.removeFirst());
+        assertTrue(deque.isEmpty());
+    }
+
+    @Test
+    public void testAddLastAndRemoveLast() {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+
+        deque.addLast(1);
+        deque.addLast(2);
+        deque.addLast(3);
+
+        assertEquals(3, (int) deque.removeLast());
+        assertEquals(2, (int) deque.removeLast());
+        assertEquals(1, (int) deque.removeLast());
+        assertTrue(deque.isEmpty());
+    }
+
+    @Test
+    public void testIsEmpty() {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+
+        assertTrue(deque.isEmpty());
+        deque.addFirst(1);
+        assertFalse(deque.isEmpty());
+        deque.removeFirst();
+        assertTrue(deque.isEmpty());
+    }
+
+    @Test
+    public void testSize() {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+
+        assertEquals(0, deque.size());
+
+        deque.addFirst(1);
+        deque.addLast(2);
+        assertEquals(2, deque.size());
+
+        deque.removeFirst();
+        assertEquals(1, deque.size());
+    }
+
+    @Test
+    public void testGet() {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+
+        deque.addLast(1);
+        deque.addLast(2);
+        deque.addLast(3);
+
+        assertEquals(1, (int) deque.get(0));
+        assertEquals(2, (int) deque.get(1));
+        assertEquals(3, (int) deque.get(2));
+    }
+
+    @Test
+    public void testIterator() {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+
+        deque.addLast(1);
+        deque.addLast(2);
+        deque.addLast(3);
+
+        Iterator<Integer> iterator = deque.iterator();
+        assertTrue(iterator.hasNext());
+        assertEquals(1, (int) iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(2, (int) iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(3, (int) iterator.next());
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void testResize() {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+
+        for (int i = 0; i < 16; i++) {
+            deque.addLast(i);
+        }
+
+        for (int i = 0; i < 8; i++) {
+            deque.removeFirst();
+        }
+
+        assertEquals(8, deque.size());
+        assertEquals(16, deque.getCapacity());
+
+        // Remove additional elements to trigger resizing to 8
+        for (int i = 0; i < 8; i++) {
+            deque.removeFirst();
+        }
+
+        assertEquals(0, deque.size());
+        assertEquals(8, deque.getCapacity());
+    }
+
+    @Test
+    public void testEquals() {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+        ArrayDeque<Integer> otherDeque = new ArrayDeque<>();
+
+        deque.addLast(1);
+        deque.addLast(2);
+        deque.addLast(3);
+
+        otherDeque.addLast(1);
+        otherDeque.addLast(2);
+        otherDeque.addLast(3);
+
+        assertEquals(deque, otherDeque);
+
+        otherDeque.addLast(4);
+        assertNotEquals(deque, otherDeque);
     }
 }

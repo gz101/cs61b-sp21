@@ -11,8 +11,28 @@ public class ArrayDeque<T> implements Deque<T> {
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
-        nextFirst = 4;
-        nextLast = 5;
+        nextFirst = 0;
+        nextLast = 1;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ArrayDeque oad) {
+            if (oad.size() != this.size()) {
+                return false;
+            }
+
+            for (int i = 0; i < this.size(); i++) {
+                if (!oad.get(i).equals(this.get(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // not an instance of ArrayDeque
+        return false;
     }
 
     private int getModIndex(int i) {
@@ -23,32 +43,36 @@ public class ArrayDeque<T> implements Deque<T> {
         return index;
     }
 
+    public int getCapacity() {
+        return items.length;
+    }
+
     private void resize(int capacity) {
         T[] newArr = (T[]) new Object[capacity];
 
-        // TODO: handle smaller array resize and set nextFirst and nextLast
+        int j = nextFirst + 1;
         if (capacity > items.length) {
-            // copy front over
-            int frontStart = getModIndex(nextFirst + 1);
-            System.arraycopy(
-                    items, frontStart, newArr, capacity - (size - frontStart), size - frontStart
-            );
-
-            // copy end over
-            System.arraycopy(items, 0, newArr, 0, frontStart);
-
-            nextFirst = capacity - (size - frontStart) - 1;
-            nextLast = frontStart;
+            // increase array size
+            for (int i = 0; i < size; i++) {
+                newArr[i] = items[getModIndex(j)];
+                j++;
+            }
         } else {
-
+            // decrease array size
+            for (int i = 0; i < size; i++) {
+                newArr[i] = items[getModIndex(j)];
+                j++;
+            }
         }
+        nextFirst = capacity - 1;
+        nextLast = size;
 
         items = newArr;
     }
 
     @Override
     public void addFirst(T item) {
-        if (size() == items.length) {
+        if (size() == getCapacity()) {
             resize(size() * 2);
         }
 
@@ -59,18 +83,13 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public void addLast(T item) {
-        if (size() == items.length) {
+        if (size() == getCapacity()) {
             resize(size() * 2);
         }
 
         items[getModIndex(nextLast)] = item;
         nextLast++;
         size++;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     @Override
@@ -93,11 +112,16 @@ public class ArrayDeque<T> implements Deque<T> {
         if (isEmpty()) {
             return null;
         }
-        // TODO: resize if too small
 
         T val = items[getModIndex(nextFirst + 1)];
         nextFirst++;
         size--;
+
+        // resize if array too small
+        if (size <= items.length / 4 && items.length > 8) {
+            resize(items.length / 2);
+        }
+
         return val;
     }
 
@@ -106,11 +130,16 @@ public class ArrayDeque<T> implements Deque<T> {
         if (isEmpty()) {
             return null;
         }
-        // TODO: resize if too small
 
         T val = items[getModIndex(nextLast - 1)];
         nextLast--;
         size--;
+
+        // resize if array to small
+        if (size <= items.length / 4 && items.length > 8) {
+            resize(items.length / 2);
+        }
+
         return val;
     }
 
@@ -122,14 +151,36 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new ArrayDequeIterator();
     }
 
-    private void printBaseDeque() {
+    public void printBaseDeque() {
         System.out.print("[");
-        for (int i = 0; i < items.length - 1; i++) {
+        for (int i = 0; i < getCapacity() - 1; i++) {
             System.out.print(items[i] + ", ");
         }
-        System.out.println(items[items.length - 1] + "]");
+        System.out.println(items[getCapacity() - 1] + "]");
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int pos;
+
+        public ArrayDequeIterator() {
+            pos = 0;
+        }
+
+        public boolean hasNext() {
+            return pos < size;
+        }
+
+        public T next() {
+            if (hasNext()) {
+                int index = getModIndex(nextFirst + pos + 1);
+                T item = items[index];
+                pos++;
+                return item;
+            }
+            return null;
+        }
     }
 }
