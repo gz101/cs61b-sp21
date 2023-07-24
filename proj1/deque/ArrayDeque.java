@@ -155,7 +155,6 @@ public class ArrayDeque<T> implements Deque<T> {
         return items[getModIndex(start + index)];
     }
 
-    @Override
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
@@ -171,7 +170,7 @@ public class ArrayDeque<T> implements Deque<T> {
     private class ArrayDequeIterator implements Iterator<T> {
         private int pos;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             pos = 0;
         }
 

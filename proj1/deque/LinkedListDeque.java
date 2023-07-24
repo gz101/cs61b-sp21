@@ -164,7 +164,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         return ptr.item;
     }
 
-    @Override
     public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
     }
@@ -174,7 +173,7 @@ public class LinkedListDeque<T> implements Deque<T> {
         T item;
         ListNode<T> next;
 
-        public ListNode(T value) {
+        ListNode(T value) {
             prev = this;
             next = this;
             item = value;
@@ -184,7 +183,7 @@ public class LinkedListDeque<T> implements Deque<T> {
     private class LinkedListDequeIterator implements Iterator<T> {
         private ListNode<T> pos;
 
-        public LinkedListDequeIterator() {
+        LinkedListDequeIterator() {
             pos = sentinel.next;
         }
 
