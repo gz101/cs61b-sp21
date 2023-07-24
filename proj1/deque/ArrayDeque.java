@@ -17,7 +17,13 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ArrayDeque oad) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() == this.getClass()) {
+            ArrayDeque<T> oad = (ArrayDeque<T>) obj;
+
             if (oad.size() != this.size()) {
                 return false;
             }
@@ -174,13 +180,10 @@ public class ArrayDeque<T> implements Deque<T> {
         }
 
         public T next() {
-            if (hasNext()) {
-                int index = getModIndex(nextFirst + pos + 1);
-                T item = items[index];
-                pos++;
-                return item;
-            }
-            return null;
+            int index = getModIndex(nextFirst + pos + 1);
+            T item = items[index];
+            pos++;
+            return item;
         }
     }
 }

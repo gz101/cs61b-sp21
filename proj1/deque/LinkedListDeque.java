@@ -17,7 +17,13 @@ public class LinkedListDeque<T> implements Deque<T> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof LinkedListDeque olld) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() == this.getClass()) {
+            LinkedListDeque<T> olld = (LinkedListDeque<T>) obj;
+
             if (olld.size() != this.size()) {
                 return false;
             }
@@ -159,7 +165,7 @@ public class LinkedListDeque<T> implements Deque<T> {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
     }
 
