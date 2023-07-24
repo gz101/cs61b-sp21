@@ -234,16 +234,23 @@ public class ArrayDequeTest {
     public void testResize() {
         ArrayDeque<Integer> deque = new ArrayDeque<>();
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 8; i++) {
             deque.addLast(i);
         }
+
+        assertEquals(8, deque.size());
+
+        for (int i = 0; i < 8; i++) {
+            deque.addLast(i);
+        }
+
+        assertEquals(16, deque.size());
 
         for (int i = 0; i < 8; i++) {
             deque.removeFirst();
         }
 
         assertEquals(8, deque.size());
-        assertEquals(16, deque.getCapacity());
 
         // Remove additional elements to trigger resizing to 8
         for (int i = 0; i < 8; i++) {
@@ -251,7 +258,6 @@ public class ArrayDequeTest {
         }
 
         assertEquals(0, deque.size());
-        assertEquals(8, deque.getCapacity());
     }
 
     @Test

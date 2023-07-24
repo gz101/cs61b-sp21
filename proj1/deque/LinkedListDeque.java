@@ -21,8 +21,8 @@ public class LinkedListDeque<T> implements Deque<T> {
             return false;
         }
 
-        if (obj.getClass() == this.getClass()) {
-            LinkedListDeque<T> olld = (LinkedListDeque<T>) obj;
+        if (obj instanceof Deque) {
+            Deque<T> olld = (Deque<T>) obj;
 
             if (olld.size() != this.size()) {
                 return false;
@@ -164,6 +164,7 @@ public class LinkedListDeque<T> implements Deque<T> {
         return ptr.item;
     }
 
+    @Override
     public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
     }

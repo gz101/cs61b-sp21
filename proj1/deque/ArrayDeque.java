@@ -21,15 +21,17 @@ public class ArrayDeque<T> implements Deque<T> {
             return false;
         }
 
-        if (obj.getClass() == this.getClass()) {
-            ArrayDeque<T> oad = (ArrayDeque<T>) obj;
+        if (obj instanceof Deque) {
+            Deque<T> oad = (Deque<T>) obj;
 
             if (oad.size() != this.size()) {
                 return false;
             }
 
-            for (int i = 0; i < this.size(); i++) {
-                if (!oad.get(i).equals(this.get(i))) {
+            Iterator<T> it1 = this.iterator();
+            Iterator<T> it2 = oad.iterator();
+            while (it1.hasNext() && it2.hasNext()) {
+                if (!it1.next().equals(it2.next())) {
                     return false;
                 }
             }
@@ -49,7 +51,7 @@ public class ArrayDeque<T> implements Deque<T> {
         return index;
     }
 
-    public int getCapacity() {
+    private int getCapacity() {
         return items.length;
     }
 
@@ -155,16 +157,9 @@ public class ArrayDeque<T> implements Deque<T> {
         return items[getModIndex(start + index)];
     }
 
+    @Override
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
-    }
-
-    public void printBaseDeque() {
-        System.out.print("[");
-        for (int i = 0; i < getCapacity() - 1; i++) {
-            System.out.print(items[i] + ", ");
-        }
-        System.out.println(items[getCapacity() - 1] + "]");
     }
 
     private class ArrayDequeIterator implements Iterator<T> {
