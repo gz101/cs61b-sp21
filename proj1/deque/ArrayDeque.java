@@ -17,19 +17,45 @@ public class ArrayDeque<T> implements Deque<T> {
 
     private void resize(int capacity) {
         T[] newArr = (T[]) new Object[capacity];
-        System.arraycopy(items, 0, newArr, 0, size);
+
+        // TODO: handle smaller array resize and set nextFirst and nextLast
+        if (capacity > items.length) {
+            // copy front over
+            System.arraycopy(
+                    items, (size / 2) - 1, newArr, (3 * capacity / 4) - 1, size
+            );
+
+            // copy end over
+            System.arraycopy(items, 0, newArr, 0, (size / 2) - 2);
+
+            nextFirst = (3 * capacity / 4) - 1;
+            nextLast = (size / 2) - 1;
+        } else {
+
+        }
+
         items = newArr;
     }
 
     @Override
     public void addFirst(T item) {
-        items[nextFirst--] = item;
+        if (size() == items.length) {
+            resize(size() * 2);
+        }
+
+        items[nextFirst % items.length] = item;
+        nextFirst--;
         size++;
     }
 
     @Override
     public void addLast(T item) {
-        items[nextLast++] = item;
+        if (size() == items.length) {
+            resize(size() * 2);
+        }
+
+        items[nextLast % items.length] = item;
+        nextLast++;
         size++;
     }
 
@@ -47,20 +73,36 @@ public class ArrayDeque<T> implements Deque<T> {
     public void printDeque() {
         int start = nextFirst + 1;
         System.out.print("[");
-        for (int i = start; i < size - 1; i++) {
+        for (int i = start; i < start + size - 1; i++) {
             System.out.print(items[i % items.length] + ", ");
         }
-        System.out.println(items[(size - 1) % items.length] + "]");
+        System.out.println(items[(start + size - 1) % items.length] + "]");
     }
 
     @Override
     public T removeFirst() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        // TODO: resize if too small
+
+        T val = items[(nextFirst + 1) % items.length];
+        nextFirst++;
+        size--;
+        return val;
     }
 
     @Override
     public T removeLast() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        // TODO: resize if too small
+
+        T val = items[(nextLast - 1) % items.length];
+        nextLast--;
+        size--;
+        return val;
     }
 
     @Override
