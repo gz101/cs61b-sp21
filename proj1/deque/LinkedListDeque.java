@@ -4,8 +4,9 @@ import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Deque<T> {
 
-    private int size;
     private final ListNode<T> sentinel;
+    private int size;
+
     /**
      * Creates an empty linked list deque (no arguments).
      */
