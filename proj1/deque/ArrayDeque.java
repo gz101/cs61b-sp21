@@ -15,21 +15,30 @@ public class ArrayDeque<T> implements Deque<T> {
         nextLast = 5;
     }
 
+    private int getModIndex(int i) {
+        int index = i % items.length;
+        if (index < 0) {
+            index += items.length;
+        }
+        return index;
+    }
+
     private void resize(int capacity) {
         T[] newArr = (T[]) new Object[capacity];
 
         // TODO: handle smaller array resize and set nextFirst and nextLast
         if (capacity > items.length) {
             // copy front over
+            int frontStart = getModIndex(nextFirst + 1);
             System.arraycopy(
-                    items, (size / 2) - 1, newArr, (3 * capacity / 4) - 1, size
+                    items, frontStart, newArr, capacity - (size - frontStart), size - frontStart
             );
 
             // copy end over
-            System.arraycopy(items, 0, newArr, 0, (size / 2) - 2);
+            System.arraycopy(items, 0, newArr, 0, frontStart);
 
-            nextFirst = (3 * capacity / 4) - 1;
-            nextLast = (size / 2) - 1;
+            nextFirst = capacity - (size - frontStart) - 1;
+            nextLast = frontStart;
         } else {
 
         }
@@ -43,7 +52,7 @@ public class ArrayDeque<T> implements Deque<T> {
             resize(size() * 2);
         }
 
-        items[nextFirst % items.length] = item;
+        items[getModIndex(nextFirst)] = item;
         nextFirst--;
         size++;
     }
@@ -54,7 +63,7 @@ public class ArrayDeque<T> implements Deque<T> {
             resize(size() * 2);
         }
 
-        items[nextLast % items.length] = item;
+        items[getModIndex(nextLast)] = item;
         nextLast++;
         size++;
     }
@@ -74,9 +83,9 @@ public class ArrayDeque<T> implements Deque<T> {
         int start = nextFirst + 1;
         System.out.print("[");
         for (int i = start; i < start + size - 1; i++) {
-            System.out.print(items[i % items.length] + ", ");
+            System.out.print(items[getModIndex(i)] + ", ");
         }
-        System.out.println(items[(start + size - 1) % items.length] + "]");
+        System.out.println(items[getModIndex(start + size - 1)] + "]");
     }
 
     @Override
@@ -86,7 +95,7 @@ public class ArrayDeque<T> implements Deque<T> {
         }
         // TODO: resize if too small
 
-        T val = items[(nextFirst + 1) % items.length];
+        T val = items[getModIndex(nextFirst + 1)];
         nextFirst++;
         size--;
         return val;
@@ -99,7 +108,7 @@ public class ArrayDeque<T> implements Deque<T> {
         }
         // TODO: resize if too small
 
-        T val = items[(nextLast - 1) % items.length];
+        T val = items[getModIndex(nextLast - 1)];
         nextLast--;
         size--;
         return val;
@@ -107,11 +116,20 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public T get(int index) {
-        return null;
+        int start = getModIndex(nextFirst + 1);
+        return items[getModIndex(start + index)];
     }
 
     @Override
     public Iterator<T> iterator() {
         return null;
+    }
+
+    private void printBaseDeque() {
+        System.out.print("[");
+        for (int i = 0; i < items.length - 1; i++) {
+            System.out.print(items[i] + ", ");
+        }
+        System.out.println(items[items.length - 1] + "]");
     }
 }

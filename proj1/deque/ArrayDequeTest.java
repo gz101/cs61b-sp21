@@ -1,5 +1,6 @@
 package deque;
 
+import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -101,6 +102,27 @@ public class ArrayDequeTest {
     }
 
     @Test
+    public void resizeArrayDequeTest() {
+
+        ArrayDeque<String> ad1 = new ArrayDeque<>();
+
+        ad1.addLast("a");
+        ad1.addLast("b");
+        ad1.addFirst("c");
+        ad1.addLast("d");
+        ad1.addLast("e");
+        ad1.addFirst("f");
+        ad1.addLast("g");
+        ad1.addLast("h");
+
+        ad1.printDeque();
+
+        ad1.addLast("Z");
+
+        ad1.printDeque();
+    }
+
+    @Test
     /* Add large number of elements to deque; check if order is correct. */
     public void bigArrayDequeTest() {
 
@@ -116,5 +138,28 @@ public class ArrayDequeTest {
         for (double i = 999999; i > 500000; i--) {
             assertEquals("Should have the same value", i, (double) ad1.removeLast(), 0.0);
         }
+    }
+
+    @Test
+    public void getArrayDequeTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        for (int i = 0; i < 4; i++) {
+            ad1.addFirst(i);
+        }
+
+        assertEquals("Expected to be 0", 0, (int) ad1.get(3));
+        assertEquals("Expected to be 1", 1, (int) ad1.get(2));
+        assertEquals("Expected to be 2", 2, (int) ad1.get(1));
+        assertEquals("Expected to be 3", 3, (int) ad1.get(0));
+
+        ArrayDeque<Integer> ad2 = new ArrayDeque<>();
+        for (int i = 0; i < 4; i++) {
+            ad2.addLast(i);
+        }
+
+        assertEquals("Expected to be 0", 0, (int) ad2.get(0));
+        assertEquals("Expected to be 1", 1, (int) ad2.get(1));
+        assertEquals("Expected to be 2", 2, (int) ad2.get(2));
+        assertEquals("Expected to be 3", 3, (int) ad2.get(3));
     }
 }
