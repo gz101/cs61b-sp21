@@ -278,4 +278,44 @@ public class ArrayDequeTest {
         otherDeque.addLast(4);
         assertNotEquals(deque, otherDeque);
     }
+
+    @Test
+    public void testEqualsMore() {
+        // Create two identical ArrayDeque instances
+        ArrayDeque<Integer> deque1 = new ArrayDeque<>();
+        ArrayDeque<Integer> deque2 = new ArrayDeque<>();
+        for (int i = 0; i < 5; i++) {
+            deque1.addLast(i);
+            deque2.addLast(i);
+        }
+
+        // Test equality of identical ArrayDeque instances
+        assertEquals(deque1, deque2);
+        assertEquals(deque2, deque1);
+
+        // Test equality with different order
+        deque2.addFirst(5);
+        deque2.addLast(6);
+        assertNotEquals(deque1, deque2);
+        assertNotEquals(deque2, deque1);
+
+        // Test equality with different elements
+        deque2.removeFirst();
+        deque2.addLast(10);
+        assertNotEquals(deque1, deque2);
+        assertNotEquals(deque2, deque1);
+
+        // Test equality with different size
+        deque2.removeLast();
+        assertNotEquals(deque1, deque2);
+        assertNotEquals(deque2, deque1);
+
+        // Test equality with different types
+        ArrayDeque<String> deque3 = new ArrayDeque<>();
+        assertNotEquals(deque1, deque3);
+        assertNotEquals(deque3, deque1);
+
+        // Test equality with null
+        assertNotEquals(null, deque1);
+    }
 }
