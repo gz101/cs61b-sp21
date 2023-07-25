@@ -21,17 +21,31 @@ public class ArrayDeque<T> implements Deque<T> {
             return false;
         }
 
-        if (obj instanceof Deque) {
-            Deque<T> oad = (Deque<T>) obj;
+        if (obj instanceof ArrayDeque) {
+            ArrayDeque<T> other = (ArrayDeque<T>) obj;
 
-            if (oad.size() != this.size()) {
+            if (other.size() != this.size()) {
                 return false;
             }
 
-            Iterator<T> it1 = this.iterator();
-            Iterator<T> it2 = oad.iterator();
-            while (it1.hasNext() && it2.hasNext()) {
-                if (!it1.next().equals(it2.next())) {
+            for (int i = 0; i < this.size(); i++) {
+                if (!other.get(i).equals(this.get(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+
+        } else if (obj instanceof LinkedListDeque) {
+            LinkedListDeque<T> other = (LinkedListDeque<T>) obj;
+
+            if (other.size() != this.size()) {
+                return false;
+            }
+
+            Iterator<T> it1 = other.iterator();
+            for (int i = 0; i < this.size(); i++) {
+                if (!this.get(i).equals(it1.next())) {
                     return false;
                 }
             }
@@ -39,7 +53,7 @@ public class ArrayDeque<T> implements Deque<T> {
             return true;
         }
 
-        // not an instance of ArrayDeque
+        // not an instance of ArrayDeque or LinkedListDeque
         return false;
     }
 

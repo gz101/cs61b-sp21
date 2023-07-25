@@ -21,25 +21,39 @@ public class LinkedListDeque<T> implements Deque<T> {
             return false;
         }
 
-        if (obj instanceof Deque) {
-            Deque<T> olld = (Deque<T>) obj;
+        if (obj instanceof LinkedListDeque) {
+            LinkedListDeque<T> other = (LinkedListDeque<T>) obj;
 
-            if (olld.size() != this.size()) {
+            if (other.size() != this.size()) {
                 return false;
             }
 
             Iterator<T> it1 = this.iterator();
-            Iterator<T> it2 = olld.iterator();
+            Iterator<T> it2 = other.iterator();
             while (it1.hasNext() && it2.hasNext()) {
                 if (!it1.next().equals(it2.next())) {
                     return false;
                 }
             }
+            return true;
 
+        } else if (obj instanceof ArrayDeque) {
+            ArrayDeque<T> other = (ArrayDeque<T>) obj;
+
+            if (other.size() != this.size()) {
+                return false;
+            }
+
+            Iterator<T> it1 = this.iterator();
+            for (int i = 0; i < other.size(); i++) {
+                if (!other.get(i).equals(it1.next())) {
+                    return false;
+                }
+            }
             return true;
         }
 
-        // not an instance of LinkedListDeque
+        // not an instance of LinkedListDeque or ArrayDeque
         return false;
     }
 
