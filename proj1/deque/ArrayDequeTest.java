@@ -323,7 +323,7 @@ public class ArrayDequeTest {
     public void testEmptyDequeEquality() {
         ArrayDeque<Integer> deque1 = new ArrayDeque<>();
         ArrayDeque<Integer> deque2 = new ArrayDeque<>();
-        assertTrue(deque1.equals(deque2));
+        assertEquals(deque1, deque2);
     }
 
     @Test
@@ -333,7 +333,7 @@ public class ArrayDequeTest {
         deque1.addLast(42);
         deque2.addLast(42);
 
-        assertTrue(deque1.equals(deque2));
+        assertEquals(deque1, deque2);
     }
 
     @Test
@@ -345,7 +345,7 @@ public class ArrayDequeTest {
 
         deque2.addLast(1);
 
-        assertFalse(deque1.equals(deque2));
+        assertNotEquals(deque1, deque2);
     }
 
     @Test
@@ -358,7 +358,7 @@ public class ArrayDequeTest {
         deque2.addLast(2);
         deque2.addLast(1);
 
-        assertFalse(deque1.equals(deque2));
+        assertNotEquals(deque1, deque2);
     }
 
     @Test
@@ -371,7 +371,7 @@ public class ArrayDequeTest {
         deque2.addLast(3);
         deque2.addLast(4);
 
-        assertFalse(deque1.equals(deque2));
+        assertNotEquals(deque1, deque2);
     }
 
     @Test
@@ -386,7 +386,7 @@ public class ArrayDequeTest {
         deque2.addLast(4);
         deque2.addLast(1);
 
-        assertFalse(deque1.equals(deque2));
+        assertNotEquals(deque1, deque2);
     }
 
     @Test
@@ -401,6 +401,6 @@ public class ArrayDequeTest {
         deque2.addLast(2);
         deque2.addLast(3);
 
-        assertTrue(deque1.equals(deque2));
+        assertEquals(deque1, deque2);
     }
 }

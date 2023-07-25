@@ -273,7 +273,7 @@ public class LinkedListDequeTest {
     public void testEmptyDequeEquality() {
         LinkedListDeque<Integer> deque1 = new LinkedListDeque<>();
         LinkedListDeque<Integer> deque2 = new LinkedListDeque<>();
-        assertTrue(deque1.equals(deque2));
+        assertEquals(deque1, deque2);
     }
 
     @Test
@@ -283,7 +283,7 @@ public class LinkedListDequeTest {
         deque1.addLast(42);
         deque2.addLast(42);
 
-        assertTrue(deque1.equals(deque2));
+        assertEquals(deque1, deque2);
     }
 
     @Test
@@ -295,7 +295,7 @@ public class LinkedListDequeTest {
 
         deque2.addLast(1);
 
-        assertFalse(deque1.equals(deque2));
+        assertNotEquals(deque1, deque2);
     }
 
     @Test
@@ -308,7 +308,7 @@ public class LinkedListDequeTest {
         deque2.addLast(2);
         deque2.addLast(1);
 
-        assertFalse(deque1.equals(deque2));
+        assertNotEquals(deque1, deque2);
     }
 
     @Test
@@ -321,7 +321,7 @@ public class LinkedListDequeTest {
         deque2.addLast(3);
         deque2.addLast(4);
 
-        assertFalse(deque1.equals(deque2));
+        assertNotEquals(deque1, deque2);
     }
 
     @Test
@@ -336,7 +336,7 @@ public class LinkedListDequeTest {
         deque2.addLast(4);
         deque2.addLast(1);
 
-        assertFalse(deque1.equals(deque2));
+        assertNotEquals(deque1, deque2);
     }
 
     @Test
@@ -351,6 +351,6 @@ public class LinkedListDequeTest {
         deque2.addLast(2);
         deque2.addLast(3);
 
-        assertTrue(deque1.equals(deque2));
+        assertEquals(deque1, deque2);
     }
 }

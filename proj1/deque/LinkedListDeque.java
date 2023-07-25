@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     private final ListNode<T> sentinel;
     private int size;
@@ -178,6 +178,7 @@ public class LinkedListDeque<T> implements Deque<T> {
         return ptr.item;
     }
 
+    @Override
     public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
     }
