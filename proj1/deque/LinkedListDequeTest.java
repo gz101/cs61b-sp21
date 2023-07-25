@@ -268,4 +268,89 @@ public class LinkedListDequeTest {
         assertNull(deque.removeLast());
         assertTrue(deque.isEmpty());
     }
+
+    @Test
+    public void testEmptyDequeEquality() {
+        LinkedListDeque<Integer> deque1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> deque2 = new LinkedListDeque<>();
+        assertTrue(deque1.equals(deque2));
+    }
+
+    @Test
+    public void testSingleElementDequeEquality() {
+        LinkedListDeque<Integer> deque1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> deque2 = new LinkedListDeque<>();
+        deque1.addLast(42);
+        deque2.addLast(42);
+
+        assertTrue(deque1.equals(deque2));
+    }
+
+    @Test
+    public void testDifferentSizeDeques() {
+        LinkedListDeque<Integer> deque1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> deque2 = new LinkedListDeque<>();
+        deque1.addLast(1);
+        deque1.addLast(2);
+
+        deque2.addLast(1);
+
+        assertFalse(deque1.equals(deque2));
+    }
+
+    @Test
+    public void testDifferentOrderDeques() {
+        LinkedListDeque<Integer> deque1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> deque2 = new LinkedListDeque<>();
+        deque1.addLast(1);
+        deque1.addLast(2);
+
+        deque2.addLast(2);
+        deque2.addLast(1);
+
+        assertFalse(deque1.equals(deque2));
+    }
+
+    @Test
+    public void testDifferentContentsDeques() {
+        LinkedListDeque<Integer> deque1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> deque2 = new LinkedListDeque<>();
+        deque1.addLast(1);
+        deque1.addLast(2);
+
+        deque2.addLast(3);
+        deque2.addLast(4);
+
+        assertFalse(deque1.equals(deque2));
+    }
+
+    @Test
+    public void testMixedContentsDeques() {
+        LinkedListDeque<Integer> deque1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> deque2 = new LinkedListDeque<>();
+        deque1.addLast(1);
+        deque1.addLast(2);
+        deque1.addLast(3);
+
+        deque2.addLast(3);
+        deque2.addLast(4);
+        deque2.addLast(1);
+
+        assertFalse(deque1.equals(deque2));
+    }
+
+    @Test
+    public void testEqualContentsDeques() {
+        LinkedListDeque<Integer> deque1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> deque2 = new LinkedListDeque<>();
+        deque1.addLast(1);
+        deque1.addLast(2);
+        deque1.addLast(3);
+
+        deque2.addLast(1);
+        deque2.addLast(2);
+        deque2.addLast(3);
+
+        assertTrue(deque1.equals(deque2));
+    }
 }
